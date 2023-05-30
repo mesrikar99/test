@@ -2,67 +2,7 @@
   "items": [
     {
       "name": "Updated Item",
-      "id": 2
+      "id": 1
     }
-  ],
-  "users": [
-    {
-      "id": 1,
-      "name": "John Doe"
-    },
-    {
-      "id": 2,
-      "name": "Jane Smith"
-    },
-    {
-      "name": "New Item",
-      "id": 3
-    },
-    {
-      "name": "New Item",
-      "id": 4
-    },
-    {
-      "name": "New Item",
-      "id": 5
-    },
-    {
-      "name": "New Item",
-      "id": 6
-    },
-    {
-      "name": "New Item",
-      "id": 7
-    },
-    {
-      "name": "New Item",
-      "id": 8
-    },
-    {
-      "name": "New Item",
-      "id": 9
-    },
-    {
-      "name": "New Item",
-      "id": 10
-    },
-    {
-      "name": "New Item",
-      "id": 11
-    },
-    {
-      "name": "New Item",
-      "id": 12
-    },
-        {
-      "name": "New Item",
-      "id": 13
-    },
-        {
-      "name": "New Item",
-      "id": 112
-    }
-
-
   ]
 }

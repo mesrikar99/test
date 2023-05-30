@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const DataDisplay = () => {
   const [items, setItems] = useState([]);
+  
 
   // Fetch all items
   useEffect(() => {
@@ -22,10 +23,10 @@ const DataDisplay = () => {
   const createItem = async () => {
     try {
       const newItem = { name: 'New Item' };
-      const response = await fetch('http://localhost:3000/users', {
+      const response = await fetch('http://localhost:3000/items', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': '',
         },
         body: JSON.stringify(newItem),
       });
@@ -80,10 +81,27 @@ const DataDisplay = () => {
     }
   };
 
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/items');
+        const data = await response.json();
+        setItems(data);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+
+
   return (
     <div>
       <h1>Item CRUD Operations</h1>
-      <button onClick={createItem}>Create Item</button>
+      <button onClick={createItem}>Create Items</button>
       <ul>
         {items.map((item) => (
           <li key={item.id}>
@@ -93,16 +111,7 @@ const DataDisplay = () => {
           </li>
         ))}
       </ul>
-      <button onClick={createItem}>Create Item for users</button>
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            {item.name}
-            <button onClick={() => updateItem(item.id)}>Update</button>
-            <button onClick={() => deleteItem(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+     
     </div>
   );
 };
