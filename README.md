@@ -14,6 +14,11 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
+### `Run Json Server`
+Run the command `json-server --watch data.json --port 3001`
+
+`Now you can see the UI where you can filter the data based on the employee name keyword match`
+
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
