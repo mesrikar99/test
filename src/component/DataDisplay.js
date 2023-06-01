@@ -1,119 +1,71 @@
+ //IMPORTING THE NECESSARY DEPENDENCIES. HERE I USED THE USE STATE FOR CREATING VARIABLES 
+// AND Use effect TO PERFORM THE THE FETCHING THE DATA FROM API 
 import React, { useState, useEffect } from 'react';
 
-const DataDisplay = () => {
-  const [items, setItems] = useState([]);
-  
+function DataDisplay() {
+  //CREATED TWO CONSTANTS departments FOR STORING DEPARTMENT VALUES AND search TO STORE THE SEARCH KEY VALUE
+  const [departments, setDepartments] = useState([]);
+  const [search, setSearch] = useState('');
 
-  // Fetch all items
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/items');
-        const data = await response.json();
-        setItems(data);
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    };
-
-    fetchItems();
-  }, []);
-
-  // Create an item
-  const createItem = async () => {
-    try {
-      const newItem = { name: 'New Item' };
-      const response = await fetch('http://localhost:3000/items', {
-        method: 'POST',
-        headers: {
-          'Content-Type': '',
-        },
-        body: JSON.stringify(newItem),
-      });
-      const createdItem = await response.json();
-      setItems([...items, createdItem]);
-      console.log('Created item:', createdItem);
-    } catch (error) {
-      console.error('Error creating item:', error);
-    }
-  };
-
-
-  // Update an item
-  const updateItem = async (itemId) => {
-    try {
-      const updatedItem = { name: 'Updated Item' };
-      const response = await fetch(`http://localhost:3000/items/${itemId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedItem),
-      });
-      const updatedItemResponse = await response.json();
-      setItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === itemId ? updatedItemResponse : item
-        )
-      );
-      console.log('Updated item:', updatedItemResponse);
-    } catch (error) {
-      console.error('Error updating item:', error);
-    }
-  };
-
-  // Delete an item
-  const deleteItem = async (itemId) => {
-    try {
-      const response = await fetch(`http://localhost:3000/items/${itemId}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        setItems((prevItems) =>
-          prevItems.filter((item) => item.id !== itemId)
-        );
-        console.log('Item deleted successfully.');
-      } else {
-        throw new Error('Error deleting item.');
-      }
-    } catch (error) {
-      console.error('Error deleting item:', error);
-    }
-  };
+  //USED FETCH TO GET API DATA THE END POINT FOR ACCESSING THE DATA HER IS DEPARTMENTS
 
 
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/items');
-        const data = await response.json();
-        setItems(data);
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    };
-
-    fetchItems();
+    fetch('http://localhost:3001/departments')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+     
+        return response.json(); //HERE AFTER SUCCESSFUL EXECTION WE GET THE JSON DATA 
+       
+      })
+      .then(data => setDepartments(data)) 
+      .catch(err => console.log(err));
   }, []);
 
+//WHEN EVER USER ENTER VALUE IN THE SEARCH FIELD THE STATE OF SEARCH CHANGES
+  const handleSearchChange = event => {
+    setSearch(event.target.value);
+  };
 
+  // WHEN EVER THE USER ENTER A VALUE IN THE SEARCH BOX IT RETIRN A NEW ARRAY DEPARTMENTS WITH THE MATCHED KEYWORD
+  const getFilteredDepartments = () => {
+    return departments
+      .map(department => {
+        return {
+          ...department,
+          employees: department.employees.filter(employee =>
+            employee.name.toLowerCase().includes(search.toLowerCase())
+          ),
+        };
+      }) //FILTERS OUT WHERE EMPLOYEES ARRAY LENGTH IS MORE THAN ZERO
+      .filter(department => department.employees.length > 0);
+  };
 
   return (
-    <div>
-      <h1>Item CRUD Operations</h1>
-      <button onClick={createItem}>Create Items</button>
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            {item.name}
-            <button onClick={() => updateItem(item.id)}>Update</button>
-            <button onClick={() => deleteItem(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-     
+    <div className="App">
+      <h1>Company Hierarchy</h1>
+      <input
+        type="text"
+        placeholder="Search by employee name..."
+        value={search}
+        onChange={handleSearchChange} //the function is called when ever a keyword is inserted
+
+      />
+
+      {/* //CALLS THE getFilteredDepartments() FUNCTION AND AND IT ITERATED OVER EACH DEPARTMENT   */}
+      {getFilteredDepartments().map(department => (
+        <div key={department.id}>
+          <h2>{department.name}</h2>
+          {department.employees.map(employee => (
+            <p key={employee.id}>{employee.name}</p>   
+          ))}
+      
+        </div>
+      ))}
     </div>
   );
-};
+}
 
 export default DataDisplay;

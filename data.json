@@ -1,8 +1,46 @@
 {
-  "items": [
+  "departments": [
     {
-      "name": "Updated Item",
-      "id": 1
+      "id": 1,
+      "name": "Engineering",
+      "employees": [
+        {
+          "id": 2,
+          "name": "Ravi"
+        },
+        {
+          "id": 3,
+          "name": "Meenraj"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Front-End",
+      "employees": [
+        {
+          "id": 5,
+          "name": "Ravi"
+        },
+        {
+          "id": 6,
+          "name": "Srikar"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Marketing",
+      "employees": [
+        {
+          "id": 8,
+          "name": "Vikram"
+        },
+        {
+          "id": 9,
+          "name": "PV"
+        }
+      ]
     }
   ]
 }
